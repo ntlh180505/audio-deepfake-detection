@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# Environment
+.env
+.venv/
+venv/
+conda_env/
+
+# Data
+data/raw/
+data/asvspoof2019/
+data/asvspoof2021/
+data/add2023/
+*.flac
+*.wav
+*.mp3
+
+# Checkpoints
+checkpoints/*.pth
+checkpoints/*.pt
+checkpoints/*.ckpt
+*.pth
+*.pt
+*.ckpt
+
+# Logs
+logs/
+runs/
+wandb/
+*.log
+
+# Score files that may be too large
+results/scores/*.txt
+results/scores/*.csv
+
+# Temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
