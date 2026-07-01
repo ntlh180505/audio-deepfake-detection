@@ -1,0 +1,46 @@
+model:
+  name: "XLS-R + SLSClassifier"
+  backbone: "XLS-R 300M"
+  pretrained_checkpoint: "xlsr2_300m.pt"
+  classifier: "SLSClassifier"
+
+input:
+  representation: "raw waveform"
+  sampling_rate: 16000
+  fixed_length_samples: 64600
+  fixed_length_seconds: 4.0375
+  short_audio_handling: "repeat waveform"
+  long_audio_handling: "crop first 64600 samples"
+
+training:
+  training_dataset: "ASVspoof2019 LA train"
+  augmentation: "RawBoost"
+  rawboost_algorithm: 3
+  rawboost_description: "SSI additive noise"
+  loss: "weighted cross-entropy"
+  optimizer: "Adam"
+  learning_rate: 1.0e-6
+  weight_decay: 1.0e-4
+  batch_size: 5
+  max_epochs: 50
+  checkpoint_selection: "training-loss-based early stopping"
+  development_validation: false
+  best_checkpoint: "epoch_7.pth"
+
+evaluation:
+  datasets:
+    - "ASVspoof2019 LA eval"
+    - "ASVspoof2021 LA"
+    - "ASVspoof2021 DF"
+    - "ADD2023 Track 1.2 R1"
+
+score_files:
+  asv2019_la: "scores_2019LA_epoch7.txt"
+  asv2021_la: "scores_LA_epoch7_paperlike_2021.txt"
+  asv2021_df: "scores_DF_epoch7_2021.txt"
+  add2023: "scores_ADD2023_epoch7.txt"
+
+notes:
+  - "ASVspoof2021 utterances are still cropped/repeated to 64600 samples during inference."
+  - "The model does not use the full duration of long utterances."
+  - "The ASVspoof2019 development set was not used for checkpoint selection."
